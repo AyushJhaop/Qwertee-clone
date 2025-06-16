@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qwertee Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="footer.css">
+</head>
+
+<body>
+  <header>
+    <div class="logo">Qwertee</div>
+    <div class="nav">
+      <button onclick="window.location.href='index.html'">Home</button>
+      <button onclick="window.location.href='teeshop.html'">Tee Shop</button>
+      <button onclick="window.location.href='prints.html'">Prints</button>
+      <button onclick="window.location.href='stickers.html'">Stickers</button>
+      <button onclick="window.location.href='help.html'">Help</button>
+      <button onclick="window.location.href='cart.html'">Cart <span class="cart-badge" id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <section class="hero">
+    
+  </section>
+  <div class="clock" id="clock"></div>
+  <div class="product-set-indicator">
+    <span>Today's Collection: </span>
+    <span id="productSetName"></span>
+  </div>
+
+  <section class="products" id="products"></section>
+
+  <footer class="footer">
+    <div class="newsletter">
+      <div class="newsletter-left">
+        <p>Newsletter:<br> Get a €2/£2/$2 discount code, sneak peeks of upcoming tees/sales, a chance at a free tee every week and more!</p>
+        <input type="email" placeholder="Enter your email">
+        <button>JOIN!</button>
+        <label><input type="checkbox"> Also sign up for Daily Update Mail, Get €2/£2/$2 discount code and never miss a tee!</label>
+      </div>
+
+      <div class="newsletter-right">
+        <p>WANT TO WIN FREE TEES?<br> We give away over 30 FREE TEES every single week. Just <a href="#">click here</a> to win some now!!!</p>
+
+        <div class="social">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+          <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div>
+        <h3>TEES:</h3>
+        <ul>
+          <li>Today's Tee</li>
+          <li>Last Chance Tees</li>
+          <li>Shop Tees</li>
+          <li>Win FREE TEES!</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>VOTE:</h3>
+        <ul>
+          <li>Vote For Tees</li>
+          <li>Newest Tees</li>
+          <li>Most Voted For Tees</li>
+          <li>Submit Your Design</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>TALK:</h3>
+        <ul>
+          <li>RSS Feed</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>HELP:</h3>
+        <ul>
+          <li>How Does Qwertee Work?</li>
+          <li>Help & FAQ</li>
+          <li>Order Tracking</li>
+          <li>Contact Us</li>
+          <li>Jobs</li>
+        </ul>
+      </div>
+
+      <div class="company-info">
+        <h3>COMPANY INFO:</h3>
+        <p>
+          Qwertee Registered Address:<br>
+          Qwertee<br>
+          Block 3<br>
+          Harcourt Road<br>
+          Dublin 2<br>
+          Ireland<br>
+          Company Number: 476522
+        </p>
+      </div>
+    </div>
+
+
+  </footer>
+
+  <!-- Product Selection Modal -->
+  <div id="productSelectionModal" class="product-selection-modal">
+    <button class="close-modal">&times;</button>
+    <div class="product-selection-content">
+      <h2>Select Product Type</h2>
+      <div class="product-type-grid">
+        <div class="product-type-option" data-type="men"><img src="https://source.unsplash.com/300x300/?mens-tshirt"><h3>Men's Tee</h3></div>
+        <div class="product-type-option" data-type="women"><img src="https://source.unsplash.com/300x300/?womens-tshirt"><h3>Women's Tee</h3></div>
+        <div class="product-type-option" data-type="kids"><img src="https://source.unsplash.com/300x300/?kids-tshirt"><h3>Kids Tee</h3></div>
+        <div class="product-type-option" data-type="hoodie"><img src="https://source.unsplash.com/300x300/?hoodie"><h3>Hoodie</h3></div>
+        <div class="product-type-option" data-type="sweater"><img src="https://source.unsplash.com/300x300/?sweater"><h3>Sweater</h3></div>
+      </div>
+
+      <div class="size-section" style="display:none;">
+        <h2>Select Size</h2>
+        <div class="size-options">
+          <div class="size-option" data-size="S">S</div>
+          <div class="size-option" data-size="M">M</div>
+          <div class="size-option" data-size="L">L</div>
+          <div class="size-option" data-size="XL">XL</div>
+          <div class="size-option" data-size="XXL">XXL</div>
+        </div>
+      </div>
+
+      <div class="quantity-section" style="display:none;">
+        <h2>Select Quantity</h2>
+        <div class="quantity-selector">
+          <button class="decrease-qty">-</button>
+          <input type="number" value="1" min="1" max="10" id="quantityInput">
+          <button class="increase-qty">+</button>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="display:none;">
+        <button class="continue-shopping">Continue Shopping</button>
+        <button class="add-to-cart-modal">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Timer
+    let lastDay = new Date().getDate();
+    function updateClock() {
+      const now = new Date();
+      const currentDay = now.getDate();
+      if (currentDay !== lastDay) { lastDay = currentDay; checkProductRotation(); }
+      const remaining = 86400 - (now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds());
+      const hours = String(Math.floor(remaining / 3600)).padStart(2, '0');
+      const minutes = String(Math.floor((remaining % 3600) / 60)).padStart(2, '0');
+      const seconds = String(remaining % 60).padStart(2, '0');
+      document.getElementById("clock").textContent = `Time Left: ${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Product Sets
+    const productSet1 = [
+      { name: "Espeon Psychic", price: "£15", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748958232-234415-mens-450x540.jpg" },
+      { name: "Dark Shadow Umbreon", price: "£18", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748958182-234417-mens-450x540.jpg" },
+      { name: "Bubble Jet Vaporeon", price: "£12", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748958121-234418-mens-450x540.jpg" },
+      { name: "626 Moon", price: "£16", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748958018-234363-mens-450x540.jpg" },
+      { name: "Emotional Support Alien", price: "£20", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957971-234389-mens-450x540.jpg" },
+      { name: "Completely Different", price: "£14", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234420-mens-450x540.jpg" }
+    
+    ];
+    const productSet2 = [
+      { name: "Pixel Adventure", price: "£17", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234421-mens-450x540.jpg" },
+      { name: "Cosmic Explorer", price: "£19", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234422-mens-450x540.jpg" },
+      { name: "Forest Guardian", price: "£16", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234423-mens-450x540.jpg" },
+      { name: "Neon Samurai", price: "£22", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234424-mens-450x540.jpg" },
+      { name: "Retro Wave", price: "£18", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234425-mens-450x540.jpg" },
+      { name: "Space Odyssey", price: "£21", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234426-mens-450x540.jpg" }
+    
+    ];
+    const productSet3 = [
+      { name: "Galactic Cat", price: "£16", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234427-mens-450x540.jpg" },
+      { name: "Mountain Dreamer", price: "£20", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234428-mens-450x540.jpg" },
+      { name: "Cyber Punk", price: "£23", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234429-mens-450x540.jpg" },
+      { name: "Ocean Explorer", price: "£19", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234430-mens-450x540.jpg" },
+      { name: "Desert Wanderer", price: "£17", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234431-mens-450x540.jpg" },
+      { name: "Mystic Forest", price: "£22", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1748957416-234432-mens-450x540.jpg" }
+    ];
+
+    function checkProductRotation() {
+      const lastRotationTime = localStorage.getItem('lastProductRotation');
+      const currentTime = new Date().getTime();
+      if (!lastRotationTime || (currentTime - parseInt(lastRotationTime)) > 24 * 60 * 60 * 1000) {
+        const currentSet = localStorage.getItem('activeProductSet') || '1';
+        let newSet = currentSet === '1' ? '2' : currentSet === '2' ? '3' : '1';
+        localStorage.setItem('activeProductSet', newSet);
+        localStorage.setItem('lastProductRotation', currentTime.toString());
+        window.location.reload();
+      }
+    }
+
+    function getActiveProductSet() {
+      const set = localStorage.getItem('activeProductSet') || '1';
+      if (set === '1') return productSet1;
+      if (set === '2') return productSet2;
+      return productSet3;
+    }
+
+    function updateProductSetIndicator() {
+      const set = localStorage.getItem('activeProductSet') || '1';
+      document.getElementById('productSetName').textContent =
+        set === '1' ? 'Classic Favorites' : set === '2' ? 'New Arrivals' : 'Limited Edition';
+    }
+
+    const productsEl = document.getElementById("products");
+    const productData = getActiveProductSet();
+    updateProductSetIndicator();
+
+    productData.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `<span class="price-tag">${p.price}</span><img src="${p.img}"><h3>${p.name}</h3>
+        <div class="product-actions">
+          <button class="quick-view-btn">Quick View</button>
+          <button class="buy-now-btn">Buy Now</button></div>`;
+      card.querySelector('.buy-now-btn').onclick = () => showProductSelectionModal(p);
+      card.querySelector('.quick-view-btn').onclick = () => addToCart(p, "Standard", "M", 1);
+      productsEl.appendChild(card);
+    });
+
+    // Modal Logic
+    const modal = document.getElementById('productSelectionModal');
+    const sizeSection = modal.querySelector('.size-section');
+    const quantitySection = modal.querySelector('.quantity-section');
+    const modalActions = modal.querySelector('.modal-actions');
+    const quantityInput = document.getElementById('quantityInput');
+    let selectedProduct, selectedType, selectedSize, selectedQuantity = 1;
+
+    function resetSelection() {
+      selectedType = selectedSize = null; selectedQuantity = 1;
+      quantityInput.value = 1;
+      [...modal.querySelectorAll('.selected')].forEach(e => e.classList.remove('selected'));
+      sizeSection.style.display = quantitySection.style.display = modalActions.style.display = 'none';
+    }
+    function showProductSelectionModal(product) {
+      selectedProduct = product;
+      modal.style.display = 'flex';
+      resetSelection();
+    }
+    modal.querySelector('.close-modal').onclick = () => { modal.style.display = 'none'; resetSelection(); }
+    modal.addEventListener('click', e => { if (e.target === modal) { modal.style.display = 'none'; resetSelection(); } });
+
+    [...modal.querySelectorAll('.product-type-option')].forEach(option => {
+      option.onclick = () => {
+        [...modal.querySelectorAll('.product-type-option')].forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        selectedType = option.dataset.type;
+        sizeSection.style.display = 'block';
+      };
+    });
+
+    [...modal.querySelectorAll('.size-option')].forEach(option => {
+      option.onclick = () => {
+        [...modal.querySelectorAll('.size-option')].forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        selectedSize = option.dataset.size;
+        quantitySection.style.display = modalActions.style.display = 'block';
+      };
+    });
+
+    modal.querySelector('.decrease-qty').onclick = () => { if (selectedQuantity > 1) quantityInput.value = --selectedQuantity; }
+    modal.querySelector('.increase-qty').onclick = () => { if (selectedQuantity < 10) quantityInput.value = ++selectedQuantity; }
+    quantityInput.onchange = () => {
+      let v = parseInt(quantityInput.value);
+      selectedQuantity = (isNaN(v) || v < 1) ? 1 : (v > 10 ? 10 : v);
+      quantityInput.value = selectedQuantity;
+    };
+
+    modal.querySelector('.continue-shopping').onclick = () => { modal.style.display = 'none'; resetSelection(); }
+    modal.querySelector('.add-to-cart-modal').onclick = () => {
+      if (selectedProduct && selectedType && selectedSize) {
+        addToCart(selectedProduct, selectedType, selectedSize, selectedQuantity);
+        modal.style.display = 'none';
+        resetSelection();
+      }
+    };
+
+    function addToCart(product, type, size, quantity) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const price = parseFloat(product.price.replace('$', ''));
+      const cartItem = { name: product.name, price, image: product.img, description: `${type} T-shirt`, size, color: 'Black', quantity };
+      const existingIndex = cart.findIndex(item => item.name === cartItem.name && item.size === cartItem.size && item.color === cartItem.color);
+      if (existingIndex !== -1) cart[existingIndex].quantity += quantity;
+      else cart.push(cartItem);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      alert(`${quantity} ${product.name} (${size}) added to cart!`);
+    }
+
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((t, item) => t + item.quantity, 0);
+      document.getElementById('cartCount').textContent = count;
+    }
+    updateCartCount();
+    checkProductRotation();
+  </script>
+</body>
+</html>

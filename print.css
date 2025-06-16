@@ -1,0 +1,227 @@
+/* Global Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #f8f8f8;
+    color: #222;
+    margin: 0;
+    padding-top: 100px;
+  }
+  
+  /* Header */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #111;
+    color: white;
+    padding: 20px 50px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  
+  .nav button {
+    background: none;
+    color: white;
+    border: none;
+    margin-left: 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .nav button:hover {
+    color: #ff6600;
+  }
+  
+  .cart-badge {
+    background: #ff6600;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.8rem;
+    margin-left: 5px;
+  }
+  
+  /* Product Grid */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    padding: 40px 5vw 60px 5vw;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .product-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    padding: 18px 18px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.16);
+  }
+  
+  .product-card img {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    transition: filter 0.3s;
+    background: #f0f0f0;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+  }
+  
+  .product-card:hover img {
+    filter: brightness(0.95) blur(1px);
+  }
+  
+  .product-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+  
+  .product-price {
+    background: #ff5252;
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Popup styles */
+  .popup-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  
+  .popup-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  
+  .popup-content {
+    background: #fff;
+    border-radius: 14px;
+    padding: 36px 32px 28px 32px;
+    max-width: 400px;
+    width: 90vw;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    text-align: center;
+    animation: popupIn 0.35s cubic-bezier(.68, -0.55, .27, 1.55);
+    position: relative;
+  }
+  
+  @keyframes popupIn {
+    0% { transform: scale(0.7) translateY(40px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  
+  .popup-content img {
+    width: 70%;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    background: #f0f0f0;
+    aspect-ratio: 1/1;
+    object-fit: contain;
+  }
+  
+  .popup-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .popup-close:hover {
+    color: #ff5252;
+  }
+  
+  .popup-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .popup-desc {
+    color: #444;
+    margin-bottom: 18px;
+  }
+  
+  .popup-price {
+    font-size: 1.1rem;
+    color: #ff5252;
+    font-weight: bold;
+    margin-bottom: 18px;
+  }
+  
+  .popup-actions button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 8px;
+    transition: background 0.2s;
+  }
+  
+  .popup-actions button:hover {
+    background: #0056b3;
+  }
+  
+  /* Footer */
+  footer {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+  }
+  

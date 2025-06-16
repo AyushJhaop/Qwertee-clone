@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stickers Shop | Qwertee Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sticker.css">
+  <link rel="stylesheet" href="footer.css">
+</head>
+<body>
+  <header>
+    <div class="logo">Qwertee</div>
+    <div class="nav">
+      <button onclick="window.location.href='index.html'">Home</button>
+      <button onclick="window.location.href='teeshop.html'">Tee Shop</button>
+      <button onclick="window.location.href='prints.html'">Prints</button>
+      <button onclick="window.location.href='stickers.html'">Stickers</button>
+      <button onclick="window.location.href='help.html'">Help</button>
+      <button onclick="window.location.href='cart.html'">Cart <span class="cart-badge" id="cartCount">0</span></button>
+      
+      </div>
+    </div>
+  </header>
+  <div class="products-grid" id="productsGrid"></div>
+
+    <footer class="footer">
+
+      <div class="newsletter">
+        <div class="newsletter-left">
+          <p>Newsletter:<br> Get a €2/£2/$2 discount code, sneak peeks of upcoming tees/sales, a chance at a free tee every week and more!</p>
+          <input type="email" placeholder="Enter your email">
+          <button>JOIN!</button>
+          <label><input type="checkbox"> Also sign up for Daily Update Mail, Get €2/£2/$2 discount code and never miss a tee!</label>
+        </div>
+  
+        <div class="newsletter-right">
+          <p>WANT TO WIN FREE TEES?<br> We give away over 30 FREE TEES every single week. Just <a href="#">click here</a> to win some now!!!</p>
+  
+          <div class="social">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter">
+          </div>
+        </div>
+      </div>
+  
+      <div class="footer-links">
+        <div>
+          <h3>TEES:</h3>
+          <ul>
+            <li>Today's Tee</li>
+            <li>Last Chance Tees</li>
+            <li>Shop Tees</li>
+            <li>Win FREE TEES!</li>
+          </ul>
+        </div>
+  
+        <div>
+          <h3>VOTE:</h3>
+          <ul>
+            <li>Vote For Tees</li>
+            <li>Newest Tees</li>
+            <li>Most Voted For Tees</li>
+            <li>Submit Your Design</li>
+          </ul>
+        </div>
+  
+        <div>
+          <h3>TALK:</h3>
+          <ul>
+            <li>RSS Feed</li>
+          </ul>
+        </div>
+  
+        <div>
+          <h3>HELP:</h3>
+          <ul>
+            <li>How Does Qwertee Work?</li>
+            <li>Help & FAQ</li>
+            <li>Order Tracking</li>
+            <li>Contact Us</li>
+            <li>Jobs</li>
+          </ul>
+        </div>
+  
+        <div class="company-info">
+          <h3>COMPANY INFO:</h3>
+          <p>
+            Qwertee Registered Address:<br>
+            Qwertee<br>
+            Block 3<br>
+            Harcourt Road<br>
+            Dublin 2<br>
+            Ireland<br>
+            Company Number: 476522
+          </p>
+        </div>
+      </div>
+  
+    </footer>
+  
+  
+  <!-- Popup -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup-content" id="popupContent">
+      <button class="popup-close" id="popupClose">&times;</button>
+      <img id="popupImg" src="" alt="Sticker">
+      <div class="popup-title" id="popupTitle"></div>
+      <div class="popup-desc" id="popupDesc"></div>
+      <div class="popup-price" id="popupPrice"></div>
+      <div class="popup-actions">
+        <button onclick="addToCart()">Add to Cart</button>
+        <button onclick="document.getElementById('popupOverlay').classList.remove('active')">Close</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 8-12 sticker products
+    const products = [
+      { title: "Happy Frog", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747987324-233179-sticker-255x306.jpg", desc: "A cute happy frog sticker for your laptop or bottle." },
+      { title: "Retro Gamepad", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747987313-233405-sticker-255x306.jpg", desc: "For the gamer in you, a retro gamepad sticker." },
+      { title: "Firefly Glow", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664489-233082-sticker-255x306.jpg", desc: "Glowing firefly sticker for a magical touch." },
+      { title: "Chicken Chef", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664410-231690-sticker-255x306.jpg", desc: "A chef chicken sticker for food lovers." },
+      { title: "Hulk Chicken", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664501-232775-sticker-255x306.jpg", desc: "Hulk-inspired chicken for comic fans." },
+      { title: "Neon Butterfly", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664329-231831-sticker-255x306.jpg", desc: "Bright neon butterfly for your notebook." },
+      { title: "Riot Duck", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664310-232006-sticker-255x306.jpg", desc: "A rebellious duck sticker for your collection." },
+      { title: "Monster Buddies", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664428-232067-sticker-255x306.jpg", desc: "Cute monster friends for all ages." },
+      { title: "Dino Pal", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664296-231616-sticker-255x306.jpg", desc: "A playful dino sticker for dino fans." },
+      { title: "Space Cat", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664273-231620-sticker-255x306.jpg", desc: "A cosmic cat sticker for space dreamers." },
+      { title: "Pixel Panda", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1747664258-231626-sticker-255x306.jpg", desc: "Pixel art panda for retro fans." },
+      { title: "Astronaut", price: "€3", img: "https://cdn.qwertee.com/images/designs/product-thumbs/1745145301-223587-sticker-255x306.jpg", desc: "Dreamy astronaut sticker for your phone or laptop." }
+    ];
+    const grid = document.getElementById('productsGrid');
+    products.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <img src="${p.img}" alt="${p.title}">
+        <div class="product-title">${p.title}</div>
+        <div class="product-price">${p.price}</div>
+      `;
+      card.addEventListener('click', () => {
+        document.getElementById('popupImg').src = p.img;
+        document.getElementById('popupTitle').textContent = p.title;
+        document.getElementById('popupDesc').textContent = p.desc;
+        document.getElementById('popupPrice').textContent = p.price;
+        document.getElementById('popupOverlay').classList.add('active');
+      });
+      grid.appendChild(card);
+    });
+    // Popup close logic
+    document.getElementById('popupClose').onclick = function() {
+      document.getElementById('popupOverlay').classList.remove('active');
+    };
+    document.getElementById('popupOverlay').onclick = function(e) {
+      if (e.target === this) this.classList.remove('active');
+    };
+    
+    // Cart functionality
+    let currentProduct = null;
+    
+    function addToCart() {
+      if (!currentProduct) return;
+      
+      // Get existing cart or initialize empty array
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      
+      // Format price to number (remove € sign)
+      const price = parseFloat(currentProduct.price.replace('€', ''));
+      
+      // Create cart item
+      const cartItem = {
+        name: currentProduct.title,
+        price: price,
+        image: currentProduct.img,
+        description: currentProduct.desc,
+        size: 'Standard',
+        color: 'Multi',
+        quantity: 1
+      };
+      
+      // Check if item already exists in cart
+      const existingItemIndex = cart.findIndex(item => 
+        item.name === cartItem.name && 
+        item.description === cartItem.description
+      );
+      
+      if (existingItemIndex !== -1) {
+        // Item exists, increase quantity
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        // Add new item to cart
+        cart.push(cartItem);
+      }
+      
+      // Save updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      // Update cart count badge
+      updateCartCount();
+      
+      // Show confirmation
+      alert(`${currentProduct.title} added to cart!`);
+      
+      // Close popup
+      document.getElementById('popupOverlay').classList.remove('active');
+    }
+    
+    // Update cart count badge
+    function updateCartCount() {
+      const cartBadge = document.getElementById('cartCount');
+      if (cartBadge) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        cartBadge.textContent = count;
+        cartBadge.style.display = count > 0 ? 'inline' : 'none';
+      }
+    }
+    
+    // Initialize cart count on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCartCount();
+    });
+    
+    // Update the card click event to store the current product
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach((card, index) => {
+      card.addEventListener('click', () => {
+        currentProduct = products[index];
+        document.getElementById('popupImg').src = currentProduct.img;
+        document.getElementById('popupTitle').textContent = currentProduct.title;
+        document.getElementById('popupDesc').textContent = currentProduct.desc;
+        document.getElementById('popupPrice').textContent = currentProduct.price;
+        document.getElementById('popupOverlay').classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
